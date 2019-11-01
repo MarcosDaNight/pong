@@ -8,6 +8,17 @@ screenSize = screenWidth, screenHeight = 1000, 600
 backgroundcolor = 0,0,0
 white = 255,255,255
 
+def click():
+	click = list(pygame.mouse.get_pos())
+
+	if pygame.mouse.get_pressed()[0]:
+		click.append(True)
+	else:
+		click.append(False)
+	return click
+
+
+
 def telaInicial():
     text = titulo.render('pong.io', 1, white)
     play = fonteDefault.render('play', 1, white)
@@ -61,6 +72,8 @@ def game():
 	}
 	
 	while True:
+
+		pygame.mouse.set_visible(False)
 	
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT: sys.exit()
@@ -151,31 +164,30 @@ screen = pygame.display.set_mode(screenSize) #aqui a gente cria a tela
 pygame.display.set_caption("") #aqui a gente pode colocar aqle nome de roda teto
 
 while True:
-
-	#mouse
-    mouse = pygame.mouse.get_pos()
-    print(mouse)
-
+	click()
     #condicoes de saida
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
-		
-    key = pygame.key.get_pressed()
-    if key[K_w] and key[K_LCTRL]:
-        sys.exit()
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT: sys.exit()
+	
+	key = pygame.key.get_pressed()
+	if key[K_w] and key[K_LCTRL]:
+		sys.exit()
 
 	#entrando no jogo propiamente dito
-    if key[K_g] or (event.type == pygame.MOUSEBUTTONDOWN and mouse[0]<50):
-        game()
+	mouse = pygame.mouse.get_pos()
+	
+	if key[K_g] or (click()[2] == True and click()[0]<290 and click()[0]>240 and click()[1]>190 and click()[1]<220):
+		game()
+		pygame.mouse.set_visible(True)
 		
-    if key[K_c]:
-    	credits()
+	if key[K_c]:
+		credits()
 
     #background
-    screen.fill(backgroundcolor)
+	screen.fill(backgroundcolor)
 
-    telaInicial()
+	telaInicial()
 
-    pygame.display.update()
+	pygame.display.update()
     
 pygame.quit()
