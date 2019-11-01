@@ -17,18 +17,23 @@ def click():
 		click.append(False)
 	return click
 
-
+class button:
+	def __init__(self):
+		width = 0
+		height = 0
+		posx = 0
+		posy = 0
+		function = 0
 
 def telaInicial():
-    text = titulo.render('pong.io', 1, white)
+    screen.fill(backgroundcolor)
     play = fonteDefault.render('play', 1, white)
     options = fonteDefault.render('options', 1, white)
     credits = fonteDefault.render('credits', 1, white)
-    screen.blit(text,(400,100))
     screen.blit(play,(300,200))
     screen.blit(options,(300,250))
     screen.blit(credits,(300,300))
-    
+
 def credits():
 	pygame.display.update()
 	screen.fill(backgroundcolor)
@@ -41,7 +46,7 @@ def options():
     print('ok')
 
 def game():
-	
+
 	player1 = {
     'nickname': 'player 1',
     'score': 0,
@@ -51,7 +56,7 @@ def game():
     'posy': 250,
     'speed': 1
     }
-    
+
 	player2 = {
     'nickname': 'player 2',
     'score': 0,
@@ -61,7 +66,7 @@ def game():
     'posy': 250,
     'speed': 1
 	}
-	
+
 	ball = {
     'width': 25,
     'height': 25,
@@ -70,60 +75,60 @@ def game():
     'speedx': 1,
     'speedy': 1
 	}
-	
+
 	while True:
 
 		pygame.mouse.set_visible(False)
-	
+
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT: sys.exit()
 
 		key = pygame.key.get_pressed()
-	
+
 		# Movimentacao Player 1
 
 		if key[K_w]:
 			player1['posy'] -= player1['speed']
-	
+
 		if key[K_s]:
 			player1['posy'] += player1['speed']
-	
+
 		if player1['posy'] <= 0:
 			player1['posy'] = 0
-	
+
 		elif player1['posy'] + player1['height'] >= screenHeight:
 			player1['posy'] = screenHeight - player1['height']
-				
-		# Movimentacao Player 2	
+
+		# Movimentacao Player 2
 
 		if key[K_UP]:
 			player2['posy'] -= player2['speed']
-	
+
 		if key[K_DOWN]:
 			player2['posy'] += player2['speed']
-	
+
 		if player2['posy'] <= 0:
 			player2['posy'] = 0
-	
+
 		elif player2['posy'] + player2['height'] >= screenHeight:
 			player2['posy'] = screenHeight - player2['height']
-		
+
 		ball['posx'] += ball['speedx']
 		ball['posy'] += ball['speedy']
-	
+
 		### o jogo esta sem efeito de colissao. existem duas solucoes para as colissoes, troque o dicionario por um objeto e use o metodo coliderect() do pygame ou implemente o propio sistema de colissoes
-        
+
 		if ball['posy'] <= 0:
 			ball['speedy'] = -ball['speedy']
-	
+
 		elif ball['posy']+ball['height'] >= 600:
 			ball['speedy'] = -ball['speedy']
-	
+
 		if ball['posx'] <= 0:
 			ball['posx'] = 488
 			ball['posy'] = 288
 			player2['score'] += 1
-	
+
 		elif ball['posx']+ball['width'] >= 1000:
 			ball['posx'] = 488
 			ball['posy'] = 288
@@ -133,23 +138,23 @@ def game():
 		#condicao de parada
 		if player1['score'] == 10 or player2['score'] == 10:
 			break
-			
+
 		#background
 		screen.fill(backgroundcolor)
-	
+
 		#player 1
 		pygame.draw.rect(screen,white,(player1['posx'],player1['posy'],player1['width'],player1['height']))
-	
+
 		#player 2
 		pygame.draw.rect(screen,white,(player2['posx'],player2['posy'],player2['width'],player2['height']))
-	
+
 		#ball
 		pygame.draw.rect(screen,white,(ball['posx'],ball['posy'],ball['width'],ball['height']))
 
 		#score
 		score = fonteDefault.render('%d x %d' %(player1['score'],player2['score']), 1, white)
 		screen.blit(score,(450,100))
-	
+
 		pygame.display.update()
 
 pygame.init()
@@ -168,26 +173,22 @@ while True:
     #condicoes de saida
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()
-	
+
 	key = pygame.key.get_pressed()
 	if key[K_w] and key[K_LCTRL]:
 		sys.exit()
 
 	#entrando no jogo propiamente dito
-	mouse = pygame.mouse.get_pos()
-	
-	if key[K_g] or (click()[2] == True and click()[0]<290 and click()[0]>240 and click()[1]>190 and click()[1]<220):
+
+	if key[K_g] or (click()[2] == True and click()[0]<365 and click()[0]>300 and click()[1]>200 and click()[1]<235):
 		game()
 		pygame.mouse.set_visible(True)
-		
-	if key[K_c]:
-		credits()
 
-    #background
-	screen.fill(backgroundcolor)
+	elif key[K_c] or (click()[2] == True and click()[0]<365 and click()[0]>300 and click()[1]>400 and click()[1]<435):
+		credits()
 
 	telaInicial()
 
 	pygame.display.update()
-    
+
 pygame.quit()
