@@ -1,4 +1,4 @@
-import sys, random, pygame
+import sys, random, pygame, game
 from pygame.locals import *
 
 ### falta a implementacao de botoes
