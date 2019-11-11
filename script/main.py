@@ -82,7 +82,7 @@ while True:
 	#entrando no jogo propiamente dito
 
 	if key[K_g] or (click()[2] == True and click()[0]<365 and click()[0]>300 and click()[1]>200 and click()[1]<235):
-		game()
+		game.game()
 		pygame.mouse.set_visible(True)
 
 	elif key[K_c] or (click()[2] == True and click()[0]<365 and click()[0]>300 and click()[1]>400 and click()[1]<435):
