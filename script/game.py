@@ -1,43 +1,56 @@
-import main
+import pygame
+from pygame.locals import *
+pygame.init()
+screenSize = screenWidth, screenHeight = 1000, 600
+
+backgroundcolor = 0,0,0
+white = 255,255,255
+fonteMain = pygame.font.get_default_font()
+titulo = pygame.font.SysFont(fonteMain,60)
+fonteDefault = pygame.font.SysFont(fonteMain, 45)
+
+screen = pygame.display.set_mode(screenSize)
 
 def game():
 
 	#tirar isso daq
 
-	pygame.mixer.music.pause()
+	#pygame.mixer.music.pause()
 
-	player1 = {
-    'nickname': 'player 1',
-    'score': 0,
-    'width': 25,
-    'height': 100,
-    'posx': 100,
-    'posy': 250,
-    'speed': 1
-    }
 
-	player2 = {
-    'nickname': 'player 2',
-    'score': 0,
-    'width': 25,
-    'height': 100,
-    'posx': 875,
-    'posy': 250,
-    'speed': 1
-	}
+	# esqueleto dos remos e da bola
 
-	ball = {
-    'width': 25,
-    'height': 25,
-    'posx': 480,
-    'posy': 288,
-    'speedx': 1,
-    'speedy': 1
-	}
+	class player:
+		nickname = 'player'
+		score = 0
+		width = 25
+		height = 100
+		posx = 100
+		posy = 250
+		speed = 1
+	# definindo player1
+
+	player1 = player()
+	player1.nickname = 'Raisson'
+
+	# definindo player2
+
+	player2 = player()
+	player2.nickname = 'Marcos'
+	player2.posx = 875
+
+	# definindo ball
+
+	ball = player()
+	ball.height = 25
+	ball.posx = 480
+	ball.posy = 288
+	ball.speedx = 1
+	ball.speedy = 1
+
+	# loop q mantem o jogo
 
 	while True:
-
-		pygame.mouse.set_visible(False)
 
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT: sys.exit()
@@ -47,69 +60,76 @@ def game():
 		# Movimentacao Player 1
 
 		if key[K_w]:
-			player1['posy'] -= player1['speed']
+			player1.posy -= player1.speed
 
 		if key[K_s]:
-			player1['posy'] += player1['speed']
+			player1.posy += player1.speed
 
-		if player1['posy'] <= 0:
-			player1['posy'] = 0
+		if player1.posy <= 0:
+			player1.posy = 0
 
-		elif player1['posy'] + player1['height'] >= screenHeight:
-			player1['posy'] = screenHeight - player1['height']
+		elif player1.posy + player1.height >= screenHeight:
+			player1.posy = screenHeight - player1.height
 
 		# Movimentacao Player 2
 
 		if key[K_UP]:
-			player2['posy'] -= player2['speed']
+			player2.posy -= player2.speed
 
 		if key[K_DOWN]:
-			player2['posy'] += player2['speed']
+			player2.posy += player2.speed
 
-		if player2['posy'] <= 0:
-			player2['posy'] = 0
+		# limite de movimentacao pros players
 
-		elif player2['posy'] + player2['height'] >= screenHeight:
-			player2['posy'] = screenHeight - player2['height']
+		if player2.posy <= 0:
+			player2.posy = 0
 
-		ball['posx'] += ball['speedx']
-		ball['posy'] += ball['speedy']
+		elif player2.posy + player2.height >= screenHeight:
+			player2.posy = screenHeight - player2.height
 
-		### o jogo esta sem efeito de colissao. existem duas solucoes para as colissoes, troque o dicionario por um objeto e use o metodo coliderect() do pygame ou implemente o propio sistema de colissoes
+		ball.posx += ball.speedx
+		ball.posy += ball.speedy
 
-		if ball['posy'] <= 0:
-			ball['speedy'] = -ball['speedy']
+		### o jogo esta sem efeito de colissao. existem duas solucoes para as colissoes,
+		### troque o dicionario por um objeto e use o metodo coliderect() do pygame ou implemente
+		### o propio sistema de colissoes
 
-		elif ball['posy']+ball['height'] >= 600:
-			ball['speedy'] = -ball['speedy']
+		if ball.posy <= 0:
+			ball.speedy = -ball.speedy
 
-		if ball['posx'] <= 0:
-			ball['posx'] = 488
-			ball['posy'] = 288
-			player2['score'] += 1
+		elif ball.posy + ball.height >= 600:
+			ball.speedy = -ball.speedy
 
-		elif ball['posx']+ball['width'] >= 1000:
-			ball['posx'] = 488
-			ball['posy'] = 288
-			player1['score'] += 1
+		if ball.posx <= 0:
+			ballposx = 488
+			ballposy = 288
+			player2.score += 1
 
+		elif ball.posx + ball.width >= 1000:
+			ball.posx = 488
+			ball.posy = 288
+			player1.score += 1
 
 		#condicao de parada
-		if player1['score'] == 10 or player2['score'] == 10:
+		if player1.score == 10 or player2.score == 10:
 			break
 
 		#background
 		screen.fill(backgroundcolor)
 
 		#player 1
-		pygame.draw.rect(screen,white,(player1['posx'],player1['posy'],player1['width'],player1['height']))
+		pygame.draw.rect(screen,white,(player1.posx,player1.posy,player1.width,player1.height))
 
 		#player 2
-		pygame.draw.rect(screen,white,(player2['posx'],player2['posy'],player2['width'],player2['height']))
+		pygame.draw.rect(screen,white,(player2.posx,player2.posy,player2.width,player2.height))
 
 		#ball
-		pygame.draw.rect(screen,white,(ball['posx'],ball['posy'],ball['width'],ball['height']))
+		pygame.draw.rect(screen,white,(ball.posx,ball.posy,ball.width,ball.height))
 
 		#score
-		score = fonteDefault.render('%d x %d' %(player1['score'],player2['score']), 1, white)
+		score = fonteDefault.render('%d x %d' %(player1.score,player2.score), 1, white)
 		screen.blit(score,(450,100))
+
+		pygame.display.update()
+game()
+pygame.quit()
