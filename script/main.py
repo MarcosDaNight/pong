@@ -1,7 +1,11 @@
-import sys, pygame
+import pygame, functions
 from pygame.locals import *
 
+pygame.init()
+
 screenSize = screenWidth, screenHeight = 1000, 600
+screen = pygame.display.set_mode(screenSize) #aqui a gente cria a tela
+pygame.display.set_caption("") #aqui a gente pode colocar aqle nome de roda teto
 
 black = 0,0,0
 white = 255,255,255
@@ -20,11 +24,14 @@ class button:
 			mouse.append(True)
 		else:
 			mouse.append(False)
-		text = fonteDefault.render(title, 1, self.color)
-		screen.blit(text,(self.posx,self.posy))
+
+		functions.text('play', 45, self.posx, self.posy)
 
 		if self.posx<mouse[0] and mouse[0]<self.width+self.posx and self.posy<mouse[1] and mouse[1]<self.height+self.posy and mouse[2] == True:
 			function()
+
+def printe():
+	print('k')
 
 def main():
 	screen.fill(black)
@@ -32,32 +39,11 @@ def main():
 	options = button()
 
 	while True:
+		functions.exit()
 		screen.fill(black)
-
-    	#condicoes de saida
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT: sys.exit()
-
-		key = pygame.key.get_pressed()
-		if key[K_w] and key[K_LCTRL]:
-			sys.exit()
+		play.button('play',printe())
 
 		pygame.display.update()
 
-
-pygame.init()
-
-# backtrack
-#pygame.mixer.music.load('backtrack.mp3')
-#pygame.mixer.music.play()
-
-# aqui fica definida a font usada no jogo
-fonteMain = pygame.font.get_default_font()
-titulo = pygame.font.SysFont(fonteMain,60)
-fonteDefault = pygame.font.SysFont(fonteMain, 45)
-
-screen = pygame.display.set_mode(screenSize) #aqui a gente cria a tela
-
-pygame.display.set_caption("") #aqui a gente pode colocar aqle nome de roda teto
-
+main()
 pygame.quit()
