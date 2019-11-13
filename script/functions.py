@@ -12,7 +12,7 @@ def exit():
     if key[K_w] and key[K_LCTRL]:
         sys.exit()
 
-def text(text,size,px,py,font = pygame.font.get_default_font(),color = (255,255,255)):
+def text(text,size,px,py,screen,font = pygame.font.get_default_font(),color = (255,255,255)):
 
     font = pygame.font.SysFont(font,size)
     text = font.render(text, 100, color) # essa funcao tem como parametros texto, suavidade, cor, background=None

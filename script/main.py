@@ -1,4 +1,4 @@
-import pygame, functions
+import pygame, functions, game
 from pygame.locals import *
 
 pygame.init()
@@ -20,18 +20,10 @@ class button:
 	def button(self,title,function):
 		mouse = list(pygame.mouse.get_pos())
 
-		if pygame.mouse.get_pressed()[0]:
-			mouse.append(True)
-		else:
-			mouse.append(False)
+		functions.text('play', 45, self.posx, self.posy,screen)
 
-		functions.text('play', 45, self.posx, self.posy)
-
-		if self.posx<mouse[0] and mouse[0]<self.width+self.posx and self.posy<mouse[1] and mouse[1]<self.height+self.posy and mouse[2] == True:
+		if pygame.mouse.get_pressed()[0] and self.posx<mouse[0] and mouse[0]<self.width+self.posx and self.posy<mouse[1] and mouse[1]<self.height+self.posy:
 			function()
-
-def printe():
-	print('k')
 
 def main():
 	screen.fill(black)
@@ -41,7 +33,7 @@ def main():
 	while True:
 		functions.exit()
 		screen.fill(black)
-		play.button('play',printe())
+		play.button('play', game.game)
 
 		pygame.display.update()
 

@@ -1,17 +1,17 @@
 import pygame
 from pygame.locals import *
 pygame.init()
-screenSize = screenWidth, screenHeight = 1000, 600
-
-backgroundcolor = 0,0,0
-white = 255,255,255
-fonteMain = pygame.font.get_default_font()
-titulo = pygame.font.SysFont(fonteMain,60)
-fonteDefault = pygame.font.SysFont(fonteMain, 45)
-
-screen = pygame.display.set_mode(screenSize)
 
 def game():
+	screenSize = screenWidth, screenHeight = 1000, 600
+
+	backgroundcolor = 0,0,0
+	white = 255,255,255
+	fonteMain = pygame.font.get_default_font()
+	titulo = pygame.font.SysFont(fonteMain,60)
+	fonteDefault = pygame.font.SysFont(fonteMain, 45)
+
+	screen = pygame.display.set_mode(screenSize)
 
 	#tirar isso daq
 
@@ -131,5 +131,4 @@ def game():
 		screen.blit(score,(450,100))
 
 		pygame.display.update()
-game()
 pygame.quit()
