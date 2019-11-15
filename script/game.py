@@ -1,27 +1,21 @@
-import pygame
+import pygame, functions
 from pygame.locals import *
 pygame.init()
 
 def game():
 	screenSize = screenWidth, screenHeight = 1000, 600
 
-	backgroundcolor = 0,0,0
-	white = 255,255,255
 	fonteMain = pygame.font.get_default_font()
 	titulo = pygame.font.SysFont(fonteMain,60)
 	fonteDefault = pygame.font.SysFont(fonteMain, 45)
 
 	screen = pygame.display.set_mode(screenSize)
 
-	#tirar isso daq
-
-	#pygame.mixer.music.pause()
-
-
 	# esqueleto dos remos e da bola
 
 	class player:
 		nickname = 'player'
+		color = functions.colors['white']
 		score = 0
 		width = 25
 		height = 100
@@ -51,10 +45,9 @@ def game():
 	# loop q mantem o jogo
 
 	while True:
+		functions.exit()
 
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT: sys.exit()
-
+		# captura os clicks no teclado
 		key = pygame.key.get_pressed()
 
 		# Movimentacao Player 1
@@ -111,24 +104,23 @@ def game():
 			player1.score += 1
 
 		#condicao de parada
-		if player1.score == 10 or player2.score == 10:
+		if player1.score == 3 or player2.score == 3:
 			break
 
 		#background
-		screen.fill(backgroundcolor)
+		screen.fill(functions.colors['black'])
 
 		#player 1
-		pygame.draw.rect(screen,white,(player1.posx,player1.posy,player1.width,player1.height))
+		pygame.draw.rect(screen,player1.color,(player1.posx,player1.posy,player1.width,player1.height))
 
 		#player 2
-		pygame.draw.rect(screen,white,(player2.posx,player2.posy,player2.width,player2.height))
+		pygame.draw.rect(screen,player2.color,(player2.posx,player2.posy,player2.width,player2.height))
 
 		#ball
-		pygame.draw.rect(screen,white,(ball.posx,ball.posy,ball.width,ball.height))
+		pygame.draw.rect(screen,ball.color,(ball.posx,ball.posy,ball.width,ball.height))
 
 		#score
-		score = fonteDefault.render('%d x %d' %(player1.score,player2.score), 1, white)
-		screen.blit(score,(450,100))
+		functions.text('%d x %d' %(player1.score,player2.score), screen, 45, 450, 100)
 
 		pygame.display.update()
 pygame.quit()
