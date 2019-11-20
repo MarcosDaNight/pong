@@ -21,6 +21,14 @@ def game():
 		speedx = 0
 		speedy = 1
 
+		def wall(self):
+		
+			if self.posy <= 0:
+				self.posy = 0
+
+			elif self.posy + self.height >= screenHeight:
+				self.posy = screenHeight - self.height
+
 	# definindo player1
 
 	player1 = player()
@@ -38,7 +46,7 @@ def game():
 	ball.height = 25
 	ball.posx = 480
 	ball.posy = 288
-	ball.speedx = random.choice([-1,1])
+	ball.speedx = random.choice([-2,2])
 	ball.speedy = random.choice([0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,-0.75,-0.7,-0.65,-0.6,-0.55,-0.5,-0.45,-0.4,-0.35])
 
 	# loop q mantem o jogo
@@ -56,11 +64,7 @@ def game():
 		if key[K_s]:
 			player1.posy += player1.speedy
 
-		if player1.posy <= 0:
-			player1.posy = 0
-
-		elif player1.posy + player1.height >= screenHeight:
-			player1.posy = screenHeight - player1.height
+		player1.wall()
 
 		# Movimentacao Player 2
 		if key[K_UP]:
@@ -69,15 +73,7 @@ def game():
 		if key[K_DOWN]:
 			player2.posy += player2.speedy
 
-		### como colocar esse limite para a classe inteira
-
-		if player2.posy <= 0:
-			player2.posy = 0
-
-		elif player2.posy + player2.height >= screenHeight:
-			player2.posy = screenHeight - player2.height
-
-		### essa de cima
+		player2.wall()
 
 		ball.posx += ball.speedx
 		ball.posy += ball.speedy
@@ -111,7 +107,7 @@ def game():
 			player1.score += 1
 
 		#condicao de parada
-		if player1.score == 10 or player2.score == 10:
+		if player1.score == 3 or player2.score == 3:
 			break
 
 		#background
@@ -127,7 +123,7 @@ def game():
 		pygame.draw.rect(screen,ball.color,(ball.posx,ball.posy,ball.width,ball.height))
 
 		#score
-		functions.text('%d x %d' %(player1.score,player2.score), screen, 45, 450, 100)
+		functions.text('%s %d x %d %s' %(player1.nickname,player1.score,player2.score,player2.nickname), screen, 45, 350, 60)
 
 		pygame.display.update()
 pygame.quit()

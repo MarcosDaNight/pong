@@ -29,10 +29,12 @@ def text(text,screen,size,px,py,font = pygame.font.get_default_font(),color = co
     font = pygame.font.SysFont(font,size)
     text = font.render(text, 1, color) # essa funcao tem como parametros texto, suavidade, cor, background=None
     screen.blit(text,(px,py))
+    return text
 
 def button(title, screen, function, posx = 0, posy = 0, width = 50, height = 50, color = colors['white']):
 
     pygame.draw.rect(screen,colors['green'],(posx,posy,width,height))
+    
     text(title,screen, 45, posx, posy)
 
     mouse = pygame.mouse.get_pos()
