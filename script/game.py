@@ -22,10 +22,6 @@ def game():
 		speedx = 0
 		speedy = 1
 
-		def draw(self):
-			 salsicha = pygame.draw.rect(screen,self.color,(self.posx,self.posy,self.width,self.height))
- #if not (exple1.colliderect(parede_esq) or exple1.colliderect(bloco1) or exple1.colliderect(
-
 		def wall(self):
 
 			if self.posy <= 0:
@@ -51,7 +47,7 @@ def game():
 	ball.height = 25
 	ball.posx = 480
 	ball.posy = 288
-	ball.speedx = random.choice([-1,1])
+	ball.speedx = random.choice([-2,2])
 	ball.speedy = random.choice([0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,-0.75,-0.7,-0.65,-0.6,-0.55,-0.5,-0.45,-0.4,-0.35])
 
 	# loop q mantem o jogo
@@ -110,7 +106,7 @@ def game():
 			player1.score += 1
 
 		#condicao de parada
-		if player1.score == 10 or player2.score == 10:
+		if player1.score == 3 or player2.score == 3:
 			break
 
 		#background
@@ -126,7 +122,7 @@ def game():
 		ball.draw()
 
 		#score
-		functions.text('%d x %d' %(player1.score,player2.score), screen, 45, 450, 100)
+		functions.text('%s %d x %d %s' %(player1.nickname,player1.score,player2.score,player2.nickname), screen, 45, 350, 60)
 
 		pygame.display.update()
 pygame.quit()
