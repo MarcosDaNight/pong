@@ -11,6 +11,7 @@ def game():
 	# esqueleto dos remos e da bola
 
 	class player:
+
 		nickname = 'player'
 		color = functions.colors['white']
 		score = 0
@@ -20,6 +21,18 @@ def game():
 		posy = 250
 		speedx = 0
 		speedy = 1
+
+		def draw(self):
+			 salsicha = pygame.draw.rect(screen,self.color,(self.posx,self.posy,self.width,self.height))
+ #if not (exple1.colliderect(parede_esq) or exple1.colliderect(bloco1) or exple1.colliderect(
+
+		def wall(self):
+
+			if self.posy <= 0:
+				self.posy = 0
+
+			elif self.posy + self.height >= screenHeight:
+				self.posy = screenHeight - self.height
 
 	# definindo player1
 
@@ -56,11 +69,7 @@ def game():
 		if key[K_s]:
 			player1.posy += player1.speedy
 
-		if player1.posy <= 0:
-			player1.posy = 0
-
-		elif player1.posy + player1.height >= screenHeight:
-			player1.posy = screenHeight - player1.height
+		player1.wall()
 
 		# Movimentacao Player 2
 		if key[K_UP]:
@@ -69,22 +78,12 @@ def game():
 		if key[K_DOWN]:
 			player2.posy += player2.speedy
 
-		### como colocar esse limite para a classe inteira
-
-		if player2.posy <= 0:
-			player2.posy = 0
-
-		elif player2.posy + player2.height >= screenHeight:
-			player2.posy = screenHeight - player2.height
-
-		### essa de cima
+		player2.wall()
 
 		ball.posx += ball.speedx
 		ball.posy += ball.speedy
 
-		### o jogo esta sem efeito de colissao. existem duas solucoes para as colissoes,
-		### troque o dicionario por um objeto e use o metodo coliderect() do pygame ou implemente
-		### o propio sistema de colissoes
+		# colissao
 
 		if ball.posy <= 0:
 			ball.speedy = -ball.speedy
@@ -118,13 +117,13 @@ def game():
 		screen.fill(functions.colors['black'])
 
 		#player 1
-		pygame.draw.rect(screen,player1.color,(player1.posx,player1.posy,player1.width,player1.height))
+		player1.draw()
 
 		#player 2
-		pygame.draw.rect(screen,player2.color,(player2.posx,player2.posy,player2.width,player2.height))
+		player2.draw()
 
 		#ball
-		pygame.draw.rect(screen,ball.color,(ball.posx,ball.posy,ball.width,ball.height))
+		ball.draw()
 
 		#score
 		functions.text('%d x %d' %(player1.score,player2.score), screen, 45, 450, 100)

@@ -1,4 +1,15 @@
-import functions
+import functions, pygame
 
 def options():
-    print('oi para voce que esta lendo')
+    screenSize = screenWidth, screenHeight = 1000, 600
+    screen = pygame.display.set_mode(screenSize)
+
+    while True:
+        functions.exit()
+
+		#background
+        screen.fill(functions.colors['black'])
+
+        functions.radio(screen,100,100)
+
+        pygame.display.update()
