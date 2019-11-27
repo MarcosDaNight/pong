@@ -30,6 +30,9 @@ def game():
 			elif self.posy + self.height >= screenHeight:
 				self.posy = screenHeight - self.height
 
+		def draw(self):
+			pygame.draw.rect(screen, self.color,(self.posx,self.posy,self.width,self.height))
+
 	# definindo player1
 
 	player1 = player()
