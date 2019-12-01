@@ -34,6 +34,7 @@ def exit():
 ### func click ta atrapalhando no desempenho da func exit
 
 def click():
+
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONUP:
             print('click')

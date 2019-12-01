@@ -7,10 +7,18 @@ def game():
 
 	screenSize = screenWidth, screenHeight = 1000, 600
 	screen = pygame.display.set_mode(screenSize)
+	choice = [1.2,1.15,1.1,1.05,1,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,-1.2,-1.15,-1.1,-1.05,-1,-0.95,-0.9,-0.85,-0.8,-0.75,-0.7,-0.65,-0.6,-0.55,-0.5,-0.45,-0.4,-0.35]
 
 	# esqueleto dos remos e da bola
 
 	class player:
+
+		clock = pygame.time.Clock()
+		clock.tick(30)
+
+		### tirar o choice e fazer um pitagoras no lugar
+		### mudar o spped da bola
+		### ajeitar as funcoes de colissao
 
 		nickname = 'player'
 		color = functions.colors['white']
@@ -29,6 +37,13 @@ def game():
 
 			elif self.posy + self.height >= screenHeight:
 				self.posy = screenHeight - self.height
+
+		def colide(self,object):
+
+			if self.posx + self.width >= object.posx and self.posx < object.posx and object.posy >= self.posy and object.posy <= self.posy + self.height:
+				object.speedx = -object.speedx
+
+			#elif self.posx + self.width >= object.posx  object.posy >= self.posy
 
 		def draw(self):
 			pygame.draw.rect(screen, self.color,(self.posx,self.posy,self.width,self.height))
@@ -51,7 +66,7 @@ def game():
 	ball.posx = 480
 	ball.posy = 288
 	ball.speedx = random.choice([-2,2])
-	ball.speedy = random.choice([0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,-0.75,-0.7,-0.65,-0.6,-0.55,-0.5,-0.45,-0.4,-0.35])
+	ball.speedy = random.choice(choice)
 
 	# loop q mantem o jogo
 
@@ -84,6 +99,9 @@ def game():
 
 		# colissao
 
+		player1.colide(ball)
+		player2.colide(ball)
+
 		if ball.posy <= 0:
 			ball.speedy = -ball.speedy
 
@@ -93,7 +111,7 @@ def game():
 		if ball.posx <= 0:
 
 			ball.speedx = random.choice([-1,1])
-			ball.speedy = random.choice([0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,-0.75,-0.7,-0.65,-0.6,-0.55,-0.5,-0.45,-0.4,-0.35])
+			ball.speedy = random.choice(choice)
 			ball.posx = 488
 			ball.posy = 288
 			#pygame.time.wait(10000) ###ajeitar isso pq ta travado ate pra fechar o jogo
@@ -102,14 +120,14 @@ def game():
 		elif ball.posx + ball.width >= screenWidth:
 
 			ball.speedx = random.choice([-1,1])
-			ball.speedy = random.choice([0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,-0.75,-0.7,-0.65,-0.6,-0.55,-0.5,-0.45,-0.4,-0.35])
+			ball.speedy = random.choice(choice)
 			ball.posx = 488
 			ball.posy = 288
 			#pygame.time.wait(10000)
 			player1.score += 1
 
 		#condicao de parada
-		if player1.score == 3 or player2.score == 3:
+		if player1.score == 5 or player2.score == 5:
 			break
 
 		#background
@@ -125,7 +143,8 @@ def game():
 		ball.draw()
 
 		#score
-		functions.text('%s %d x %d %s' %(player1.nickname,player1.score,player2.score,player2.nickname), screen, 45, 350, 60)
+		functions.text('%d x %d' %(player1.score,player2.score), screen, 45, 480, 60)
 
 		pygame.display.update()
+
 pygame.quit()
