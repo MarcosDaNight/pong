@@ -1,42 +1,18 @@
 import pygame, functions, random
+from math import sqrt
 from pygame.locals import *
 
 pygame.init()
 
 def game():
+	class elements():
 
-	screenSize = screenWidth, screenHeight = 1000, 600
-	screen = pygame.display.set_mode(screenSize)
-	choice = [1.2,1.15,1.1,1.05,1,0.95,0.9,0.85,0.8,0.75,0.7,0.65,0.6,0.55,0.5,0.45,0.4,0.35,-1.2,-1.15,-1.1,-1.05,-1,-0.95,-0.9,-0.85,-0.8,-0.75,-0.7,-0.65,-0.6,-0.55,-0.5,-0.45,-0.4,-0.35]
-
-	# esqueleto dos remos e da bola
-
-	class player:
-
-		clock = pygame.time.Clock()
-		clock.tick(30)
-
-		### tirar o choice e fazer um pitagoras no lugar
-		### mudar o spped da bola
-		### ajeitar as funcoes de colissao
-
-		nickname = 'player'
 		color = functions.colors['white']
-		score = 0
 		width = 25
 		height = 100
 		posx = 100
 		posy = 250
-		speedx = 0
 		speedy = 1
-
-		def wall(self):
-
-			if self.posy <= 0:
-				self.posy = 0
-
-			elif self.posy + self.height >= screenHeight:
-				self.posy = screenHeight - self.height
 
 		def colide(self,object):
 
@@ -47,6 +23,51 @@ def game():
 
 		def draw(self):
 			pygame.draw.rect(screen, self.color,(self.posx,self.posy,self.width,self.height))
+
+	class bal(elements):
+
+		speedx = 0
+
+		def limit(self):
+			if self.posy <= 0 or self.posy + self.height >= screenHeight:
+				self.speedy = -self.speedy
+
+		def speed(self):
+
+			self.speedx = random.uniform(-1,1)
+
+			if self.speedx <= -0.8 or self.speedx == 0 or self.speedx >= 0.8:
+				self.speedx = 0.8
+
+			self.speedy = sqrt(1-self.speedx**2)*5
+
+			self.speedx = self.speedx*5
+
+	class player(elements):
+
+		nickname = 'player'
+		score = 0
+
+		def limit(self):
+
+			if self.posy <= 0:
+				self.posy = 0
+
+			elif self.posy + self.height >= screenHeight:
+				self.posy = screenHeight - self.height
+
+		def move(self,up,down,key):
+			if key[up]:
+				self.posy -= self.speedy
+
+			if key[down]:
+				self.posy += self.speedy
+
+	clock = pygame.time.Clock()
+	clock.tick(120)
+
+	screenSize = screenWidth, screenHeight = 1000, 600
+	screen = pygame.display.set_mode(screenSize)
 
 	# definindo player1
 
@@ -61,12 +82,11 @@ def game():
 
 	# definindo ball
 
-	ball = player()
+	ball = bal()
 	ball.height = 25
 	ball.posx = 480
 	ball.posy = 288
-	ball.speedx = random.choice([-2,2])
-	ball.speedy = random.choice(choice)
+	ball.speed()
 
 	# loop q mantem o jogo
 
@@ -77,22 +97,14 @@ def game():
 		key = pygame.key.get_pressed()
 
 		# Movimentacao Player 1
-		if key[K_w]:
-			player1.posy -= player1.speedy
+		player1.move(K_w,K_s,key)
 
-		if key[K_s]:
-			player1.posy += player1.speedy
-
-		player1.wall()
+		player1.limit()
 
 		# Movimentacao Player 2
-		if key[K_UP]:
-			player2.posy -= player2.speedy
+		player2.move(K_UP,K_DOWN,key)
 
-		if key[K_DOWN]:
-			player2.posy += player2.speedy
-
-		player2.wall()
+		player2.limit()
 
 		ball.posx += ball.speedx
 		ball.posy += ball.speedy
@@ -102,25 +114,21 @@ def game():
 		player1.colide(ball)
 		player2.colide(ball)
 
-		if ball.posy <= 0:
-			ball.speedy = -ball.speedy
+		ball.limit()
 
-		elif ball.posy + ball.height >= screenHeight:
-			ball.speedy = -ball.speedy
+		### tirar o choice e fazer um pitagoras no lugar
+		### mudar o speed da bola
+		### ajeitar as funcoes de colissao
 
 		if ball.posx <= 0:
-
-			ball.speedx = random.choice([-1,1])
-			ball.speedy = random.choice(choice)
+			ball.speed()
 			ball.posx = 488
 			ball.posy = 288
 			#pygame.time.wait(10000) ###ajeitar isso pq ta travado ate pra fechar o jogo
 			player2.score += 1
 
 		elif ball.posx + ball.width >= screenWidth:
-
-			ball.speedx = random.choice([-1,1])
-			ball.speedy = random.choice(choice)
+			ball.speed()
 			ball.posx = 488
 			ball.posy = 288
 			#pygame.time.wait(10000)
@@ -130,19 +138,12 @@ def game():
 		if player1.score == 5 or player2.score == 5:
 			break
 
-		#background
+		# parte q faz as coisas aparecerem na tela
+
 		screen.fill(functions.colors['black'])
-
-		#player 1
 		player1.draw()
-
-		#player 2
 		player2.draw()
-
-		#ball
 		ball.draw()
-
-		#score
 		functions.text('%d x %d' %(player1.score,player2.score), screen, 45, 480, 60)
 
 		pygame.display.update()
