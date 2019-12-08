@@ -41,8 +41,8 @@ def game():
 		mainBall.limit(screenSize)
 		mainBall.move()
 
-		player1.colide(mainBall)
-		player2.colide(mainBall)
+		player1.collide(mainBall)
+		player2.collide(mainBall)
 
 		### ajeitar as funcoes de colissao
 

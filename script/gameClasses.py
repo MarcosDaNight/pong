@@ -14,14 +14,14 @@ class rect():
 	height = 100
 	posx = 100
 	posy = 250
-	speedy = 3
+	speedy = 4
 
-	def colide(self,object):
+	def collide(self,object):
+		rect1 = Rect(self.posx, self.posy, self.width, self.height)
+		rect2 = Rect(object.posx, object.posy, object.width, object.height)
 
-		if self.posx + self.width >= object.posx and self.posx < object.posx and object.posy >= self.posy and object.posy <= self.posy + self.height:
+		if rect1.colliderect(rect2):
 			object.speedx = -object.speedx
-
-		#elif self.posx + self.width >= object.posx  object.posy >= self.posy
 
 	def draw(self,screen):
 		pygame.draw.rect(screen, self.color,(self.posx,self.posy,self.width,self.height))
@@ -38,21 +38,30 @@ class ball(rect):
 
 		def speedXGenerator():
 
-			self.speedx = decimalValueGenerator(-3.2,3.2)
-
+			self.speedx = decimalValueGenerator(-0.8,0.8)
 			if self.speedx <= 0.25 and self.speedx >= -0.25:
 				speedXGenerator()
 
 		speedXGenerator()
 
-		self.speedy = sqrt(8-self.speedx**2)*choice([1,-1])
-
-		print(self.speedx,self.speedy)
+		self.speedy = sqrt(1-self.speedx**2)*choice([1,-1])
 
 	def move(self):
 
-		self.speedx *= 1.001
-		self.speedy *= 1.001
+		aceleratorX = 0
+		aceleratorY = 0
+
+		if self.speedx > 0:
+			aceleratorX = 0.001
+		else:
+			aceleratorX = -0.001
+		if self.speedy > 0:
+			aceleratorY = 0.001
+		else:
+			aceleratorY = -0.001
+
+		self.speedx += aceleratorX
+		self.speedy += aceleratorY
 
 		self.posx += self.speedx
 		self.posy += self.speedy
