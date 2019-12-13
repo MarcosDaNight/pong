@@ -6,6 +6,10 @@ from pygame.locals import *
 
 pygame.init()
 
+screenSize = screenWidth, screenHeight = 1000, 600
+screen = pygame.display.set_mode(screenSize)
+pygame.display.set_caption("")
+
 def game():
 
 	screenSize = screenWidth, screenHeight = 1000, 600
@@ -38,11 +42,11 @@ def game():
 		player2.move(K_UP,K_DOWN,key)
 		player2.limit(screenSize)
 
-		mainBall.limit(screenSize)
-		mainBall.move()
-
 		player1.collide(mainBall)
 		player2.collide(mainBall)
+
+		mainBall.limit(screenSize)
+		mainBall.move()
 
 		### ajeitar as funcoes de colissao
 
@@ -68,5 +72,7 @@ def game():
 		text('%d x %d' %(player1.score,player2.score), screen, 45, 480, 60)
 
 		pygame.display.update()
+
+game()
 
 pygame.quit()

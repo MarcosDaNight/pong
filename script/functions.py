@@ -3,12 +3,6 @@ from pygame import *
 
 pygame.init()
 
-def passleft():
-    print('left')
-
-def passright():
-    print('right')
-
 colors = {
     'black': (0,0,0),
     'white': (255,255,255),
@@ -46,11 +40,6 @@ def hold():
         return True
     return False
 
-def radio(screen,posx,posy): # lista de strings com o nomes das opcoes
-    texto = text('kappa',screen,45,posx,posy)
-    button('<-',screen,passleft,posx-26,posy)
-    button('->',screen,passright,posx+texto[0],posy)
-
 def text(text,screen,size,px,py,font = pygame.font.get_default_font(),color = colors['white']):
 
     font = pygame.font.SysFont(font, size)
@@ -65,5 +54,8 @@ def button(title, screen, function, posx = 0, posy = 0, color = colors['white'])
 
     if click() and posx<mouse[0] and mouse[0]<size[0]+posx and posy<mouse[1] and mouse[1]<size[1]+posy:
         function() # verifica se o botao foi clicado, caso ss, ativa essa func
+
+def inputBar(screen,posx,posy,width,height, color = colors['white']):
+    pygame.draw.rect(screen, color,(posx,posy,width,height))
 
 pygame.quit()
