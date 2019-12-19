@@ -1,7 +1,6 @@
-import pygame, random
+import pygame
 from gameClasses import rect,player,ball
 from functions import colors,exit,text
-from math import sqrt
 from pygame.locals import *
 
 pygame.init()
@@ -71,7 +70,7 @@ def game():
 		mainBall.draw(screen)
 		text('%d x %d' %(player1.score,player2.score), screen, 45, 480, 60)
 
-		pygame.display.update()
+		pygame.display.flip()
 
 game()
 

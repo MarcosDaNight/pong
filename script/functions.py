@@ -27,18 +27,6 @@ def exit():
 
 ### func click ta atrapalhando no desempenho da func exit
 
-def click():
-
-    for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONUP:
-            print('click')
-            return True
-    return False
-
-def hold():
-    if pygame.mouse.get_pressed()[0]:
-        return True
-    return False
 
 def text(text,screen,size,px,py,font = pygame.font.get_default_font(),color = colors['white']):
 
@@ -46,16 +34,5 @@ def text(text,screen,size,px,py,font = pygame.font.get_default_font(),color = co
     text = font.render(text, 1, color) # essa funcao tem como parametros texto, suavidade, cor, background=None
     screen.blit(text,(px,py)) # pra printar na tela
     return text.get_width(),text.get_height() # pra ter as dimensoes pro botao
-
-def button(title, screen, function, posx = 0, posy = 0, color = colors['white']):
-
-    size = text(title,screen, 45, posx, posy) # recebe o tamanho do botao e printa o nome dele na tela
-    mouse = pygame.mouse.get_pos()
-
-    if click() and posx<mouse[0] and mouse[0]<size[0]+posx and posy<mouse[1] and mouse[1]<size[1]+posy:
-        function() # verifica se o botao foi clicado, caso ss, ativa essa func
-
-def inputBar(screen,posx,posy,width,height, color = colors['white']):
-    pygame.draw.rect(screen, color,(posx,posy,width,height))
 
 pygame.quit()

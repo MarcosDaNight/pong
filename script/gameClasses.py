@@ -48,20 +48,8 @@ class ball(rect):
 
 	def move(self):
 
-		aceleratorX = 0
-		aceleratorY = 0
-
-		if self.speedx > 0:
-			aceleratorX = 0.001
-		else:
-			aceleratorX = -0.001
-		if self.speedy > 0:
-			aceleratorY = 0.001
-		else:
-			aceleratorY = -0.001
-
-		self.speedx += aceleratorX
-		self.speedy += aceleratorY
+		self.speedx *= 1.001
+		self.speedy *= 1.001
 
 		self.posx += self.speedx
 		self.posy += self.speedy
